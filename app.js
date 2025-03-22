@@ -74,7 +74,7 @@ switch (options.action) {
     console.log(products);
     break;
   case 'getByid':
-    if (argv.id) {
+    if (options.id) {
       const result = products.find((item) => item.id === id);
       console.log(result);
       break;
