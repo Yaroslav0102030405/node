@@ -140,17 +140,47 @@
 // app.listen(4000);
 
 // приклад 2
+// const express = require('express');
+// const cors = require('cors');
+// const products = require('./products1');
+// const app = express();
+
+// // разершаємо робити кросбраузерни запроси
+// // обов'язково визиваємо його в мідлваре
+// app.use(cors());
+
+// app.get('/api/v1/products', (req, res) => {
+//   res.status(201).json({ status: 'success', data: { result: products } });
+// });
+
+// app.get('/api/v1/products', (req, res) => {
+//   res.json(products);
+// });
+
+// app.get('/api/v2/products', (req, res) => {
+//   res.json(products.slice(0, 10));
+// });
+
+// app.get('/products/:id', (req, res) => {
+//   const { id } = req.params;
+//   const product = products.find();
+// });
+
+// app.listen(4000);
+
+// перед роботою встановлюэмо покаети
+//cors, express, nodemon, moment, morgan, uuid
+
+// приклад
 const express = require('express');
 const cors = require('cors');
 const products = require('./products1');
+const logger = require('morgan');
+
 const app = express();
 
-// разершаємо робити кросбраузерни запроси
-// обов'язково визиваємо його в мідлваре
 app.use(cors());
-
-app.get('/products', (req, res) => {
-  res.json(products);
-});
+const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
+app.use(logger(formatsLogger));
 
 app.listen(4000);
