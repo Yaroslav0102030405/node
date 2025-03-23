@@ -56,34 +56,101 @@
 // }
 
 // другий варіант
-const { program } = require('commander');
+// const { program } = require('commander');
 
-const products = require('./products');
+// const products = require('./products');
 
-program
-  .option('-a, --action <type>', 'action <type>')
-  .option('-i, --id <type>', 'product id');
+// program
+//   .option('-a, --action <type>', 'action <type>')
+//   .option('-i, --id <type>', 'product id');
 
-program.parse(process.argv);
+// program.parse(process.argv);
 
-const options = program.opts();
+// const options = program.opts();
+// // console.log(options);
+
+// switch (options.action) {
+//   case 'getAll':
+//     console.log(products);
+//     break;
+//   case 'getByid':
+//     if (options.id) {
+//       const result = products.find((item) => item.id === id);
+//       console.log(result);
+//       break;
+//     }
+//     console.log('Ви не вказали ід');
+//     break;
+
+//   default:
+//     console.log('action не вказан');
+// }
+
 // console.log(options);
 
-switch (options.action) {
-  case 'getAll':
-    console.log(products);
-    break;
-  case 'getByid':
-    if (options.id) {
-      const result = products.find((item) => item.id === id);
-      console.log(result);
-      break;
-    }
-    console.log('Ви не вказали ід');
-    break;
+// const http = require('http');
 
-  default:
-    console.log('action не вказан');
-}
+// const server = http.createServer((request, response) => {
+//   const { url } = request;
 
-console.log(options);
+//   switch (url) {
+//     case '/':
+//       response.write('Home page');
+//       break;
+//     case '/contacts':
+//       response.write('Contact page');
+//       break;
+//     default:
+//       response.write('Not found ');
+//   }
+
+//   response.end();
+// });
+
+// server.listen(4000);
+
+// const express = require('express');
+// const fs = require('fs/promises');
+// // библиотека для установки годин
+// const moment = require('moment');
+
+// const app = express();
+
+// // створення мідлвара вона робиться перед запросами мідлвар - промежуточний обработчик
+// app.use(async (req, res, next) => {
+//   const data = moment().format('DD-MM-YYYY_hh:mm:ss');
+//   const { url, method } = req;
+//   await fs.appendFile('server.log', `\n${data} ${method} ${url}`);
+//   // шукає оброботчика
+//   next();
+// });
+
+// app.get('/', (req, res) => {
+//   res.send('<h2>Home page</h2>');
+// });
+
+// app.get('/contacts', (req, res) => {
+//   res.send('<h2>Contact page</h2>');
+// });
+
+// app.use((_, res) => {
+//   res.status(404).send('Not found');
+// });
+
+// app.listen(4000);
+
+// приклад 2
+const express = require('express');
+const cors = require('cors');
+const products = require('./products1');
+const app = express();
+
+// разершаємо робити кросбраузерни запроси
+// обов'язково визиваємо його в мідлваре
+app.use(cors());
+
+app.get('/products', (req, res) => {
+  res.json(products);
+});
+
+app.listen(4000);
