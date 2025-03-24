@@ -206,7 +206,7 @@ app.get('/', (req, res) => {
 
 // const { DB_HOST } = require('./secretKey');
 
-const { DB_HOST } = process.env;
+const { DB_HOST, PORT = 4000 } = process.env;
 
 mongoose
   .connect(DB_HOST, {
@@ -216,6 +216,6 @@ mongoose
   })
   .then(() => {
     console.log('Database connect success');
-    app.listen(4000);
+    app.listen(PORT);
   })
   .catch((error) => console.log(error));
