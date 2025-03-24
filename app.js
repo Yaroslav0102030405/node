@@ -190,6 +190,8 @@
 // app.listen(4000);
 
 //
+const dotevn = require('dotenv');
+dotevn.config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
@@ -202,7 +204,9 @@ app.get('/', (req, res) => {
   res.send('<h1>Home page</h1>');
 });
 
-const { DB_HOST } = require('./secretKey');
+// const { DB_HOST } = require('./secretKey');
+
+const { DB_HOST } = process.env;
 
 mongoose
   .connect(DB_HOST, {
