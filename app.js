@@ -172,19 +172,46 @@
 //cors, express, nodemon, moment, morgan, uuid
 
 // приклад
+// const express = require('express');
+// const cors = require('cors');
+// // const products = require('./productsData');
+// const logger = require('morgan');
+
+// const api = require('./api');
+
+// const app = express();
+
+// app.use(cors());
+// const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
+// app.use(logger(formatsLogger));
+
+// app.use('/api/v1/products', api.products);
+
+// app.listen(4000);
+
+//
 const express = require('express');
 const cors = require('cors');
-// const products = require('./productsData');
-const logger = require('morgan');
-
-const api = require('./api');
+const mongoose = require('mongoose');
 
 const app = express();
 
 app.use(cors());
-const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
-app.use(logger(formatsLogger));
 
-app.use('/api/v1/products', api.products);
+app.get('/', (req, res) => {
+  res.send('<h1>Home page</h1>');
+});
 
-app.listen(4000);
+const { DB_HOST } = require('./secretKey');
+
+mongoose
+  .connect(DB_HOST, {
+    // useNewUrlParsel: true,
+    // useCreateIndex: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log('Database connect success');
+    app.listen(4000);
+  })
+  .catch((error) => console.log(error));
