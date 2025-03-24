@@ -196,8 +196,9 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 
-const app = express();
+const { DB_HOST, PORT = 4000 } = process.env;
 
+const app = express();
 app.use(cors());
 
 app.get('/', (req, res) => {
@@ -205,8 +206,6 @@ app.get('/', (req, res) => {
 });
 
 // const { DB_HOST } = require('./secretKey');
-
-const { DB_HOST, PORT = 4000 } = process.env;
 
 mongoose
   .connect(DB_HOST, {
