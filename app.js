@@ -196,16 +196,21 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 
-const { DB_HOST, PORT = 4000 } = process.env;
+const api = require('./routes/api');
 
 const app = express();
+
 app.use(cors());
+app.use(express.json());
+
+app.use('/api/v1/users', api.users);
 
 app.get('/', (req, res) => {
   res.send('<h1>Home page</h1>');
 });
 
 // const { DB_HOST } = require('./secretKey');
+const { DB_HOST, PORT = 4000 } = process.env;
 
 mongoose
   .connect(DB_HOST, {
