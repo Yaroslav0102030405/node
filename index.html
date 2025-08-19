@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        background-color: #f4f4f4;
+        color: #333;
+      }
+      h1 {
+        color: #555;
+      }
+      button {
+        padding: 10px 15px;
+        font-size: 16px;
+        cursor: pointer;
+        background-color: #d9534f;
+        color: white;
+        border: none;
+        border-radius: 5px;
+      }
+      pre {
+        background-color: #fff;
+        padding: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        white-space: pre-wrap;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Тестування DELETE-запиту на бекенд</h1>
+    <p>Натисніть кнопку, щоб видалити адміністратора з ID 1.</p>
+    <button id="deleteBtn">Видалити адміністратора</button>
+
+    <h2>Консоль</h2>
+    <pre id="output"></pre>
+
+    <script>
+      const output = document.getElementById("output");
+
+      function logToOutput(message) {
+        output.textContent += message + "\n";
+        console.log(message);
+      }
+
+      document.getElementById("deleteBtn").addEventListener("click", () => {
+        logToOutput("Відправляю DELETE-запит...");
+
+        const adminIdToDelete = 1;
+        const deleteUrl = `http://localhost:3000/api/contacts/${adminIdToDelete}`;
+
+        fetch(deleteUrl, {
+          method: "DELETE",
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`Помилка HTTP: ${response.status}`);
+            }
+            const contentType = response.headers.get("content-type");
+            if (contentType && contentType.includes("application/json")) {
+              return response.json();
+            } else {
+              return null;
+            }
+          })
+          .then((data) => {
+            if (data) {
+              logToOutput(
+                "Відповідь сервера: " + JSON.stringify(data, null, 2)
+              );
+            } else {
+              logToOutput(
+                "Адміністратора успішно видалено. Відповідь без тіла."
+              );
+            }
+          })
+          .catch((error) => {
+            logToOutput("Виникла помилка: " + error.message);
+          });
+      });
+    </script>
+  </body>
+</html>
