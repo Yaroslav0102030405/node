@@ -6,7 +6,6 @@ import fs from "fs";
 
 import express from "express";
 import cors from "cors";
-import { url } from "inspector";
 import mongoose from "mongoose";
 
 const app = express();
