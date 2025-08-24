@@ -7,6 +7,7 @@ import fs from "fs";
 import express from "express";
 import cors from "cors";
 import { url } from "inspector";
+import mongoose from "mongoose";
 
 const app = express();
 
@@ -192,6 +193,28 @@ app.use((_, res) => {
   res.status(404).send("<h1>Not found</h1>");
 });
 
-app.listen(3000, () => {
-  console.log("Сервер запущено на http://localhost:3000");
-});
+// app.listen(3000, () => {
+//   console.log("Сервер запущено на http://localhost:3000");
+// });
+
+// DataBase MongoDB
+import dotenv from "dotenv";
+dotenv.config();
+const { DB_HOST } = process.env;
+
+import mongoose from "mongoose";
+import { DB_HOST } from "./config.js";
+
+mongoose
+  .connect(DB_HOST, {
+    useNewUrlParsel: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("Database connect success");
+    app.listen(3000);
+  })
+  .catch((error) => {
+    console.log(error);
+  });
